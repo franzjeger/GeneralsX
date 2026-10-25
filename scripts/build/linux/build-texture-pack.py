@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the data-only terrain/road pack from generated material sources.
+"""Build the data-only terrain, road and vegetation texture pack.
 
 Usage: build-texture-pack.py [--pack-dir DIR]
 Retail atlases provide dimensions, tile counts and road UV opacity only.
@@ -24,6 +24,20 @@ EXTRA_TERRAIN = {"SandMediumType5": "dirt.png", "SandMediumType5b": "dirt.png",
                  "DirtMediumType12": "dirt.png", "DirtMediumType13": "dirt.png",
                  "DirtMediumType14": "dirt.png", "CliffLargeType1": "cliff.png",
                  "CliffLargeType12": "cliff.png"}
+EXTRA_TERRAIN.update({f"AsphaltType{i}": "asphalt.png" for i in range(1, 4)})
+EXTRA_TERRAIN.update({f"ConcreteType{i}": "concrete.png" for i in range(1, 8)})
+EXTRA_TERRAIN["ConcreteMediumType1"] = "concrete.png"
+EXTRA_TERRAIN.update({name: "grass.png" for name in (
+    "GrassType1", "GrassMediumType10", "GrassMediumType13",
+    "GrassLargeType1", "GrassMediumType36")})
+EXTRA_TERRAIN.update({name: "snow.png" for name in (
+    "SnowType2", "SnowType5", "SnowType7b", "SnowType7c", "SnowLargeType1")})
+VEGETATION = {"PTPalm01": ("palm.png", 128), "PTPine01": ("pine.png", 128),
+              "PTBush03": ("shrub.png", 128), "PTBush01": ("shrub-dry.png", 128),
+              "PTBush02": ("shrub-snow.png", 128), "PTBush04": ("shrub-dry.png", 128),
+              "PTBush05": ("shrub-snow.png", 64), "PTBush06": ("shrub.png", 64),
+              "PTBush07": ("shrub-dry.png", 64), "PTBush11": ("shrub.png", 64),
+              "PTBush12": ("shrub-snow.png", 64)}
 
 
 def main():
@@ -45,8 +59,8 @@ def main():
         if source:
             texture = re.search(r"Texture\s*=\s*(\S+)", body)[1]
             selected[f"art/terrain/{texture}".lower()] = (name, texture, source)
-    if len(selected) != 17:
-        raise ValueError(f"Expected 17 known terrain types, found {len(selected)}")
+    if len(selected) != 38:
+        raise ValueError(f"Expected 38 known terrain types, found {len(selected)}")
     stock = lab.extract(base / "Terrain.big", set(selected))
     stock.update(lab.extract(zh / "TerrainZH.big", set(selected)))
     files = []
@@ -86,10 +100,34 @@ def main():
                   "original_size": list(original.size), "size": list(size),
                   "alpha": "Original road-atlas opacity, scaled without moving UV islands",
                   "sha256": hashlib.sha256(target.read_bytes()).hexdigest()})
-    manifest = {"version": "2.0", "engine": "GeneralsX 1.0.4 (256px terrain cells), data-only",
+    terrain_count = len(selected)
+    for name, (source, tree_size) in VEGETATION.items():
+        image = Image.open(art / source).convert("RGBA")
+        if image.getchannel("A").getextrema() != (0, 255):
+            raise ValueError(f"Vegetation source needs real transparency: {source}")
+        # Optimized trees use a fixed 2048px atlas and count 256px images as
+        # sixteen legacy cells (expectedTileCount=0). Use 128px/4 cells to
+        # preserve atlas headroom. Ordinary model-drawn trees can use 512px DDS.
+        for relative, size in ((Path("Art/Terrain") / f"{name}.tga", (tree_size, tree_size)),
+                               (Path("Art/Textures") / f"{name.lower()}.dds", (512, 512))):
+            target = pack / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            resized = image.resize(size, Image.Resampling.LANCZOS)
+            if relative.suffix == ".tga":
+                resized.save(target, compression=None)
+            else:
+                png = intermediates / f"{name}.png"
+                resized.save(png)
+                subprocess.run(["magick", str(png), "-define", "dds:compression=dxt5",
+                                "-define", "dds:mipmaps=9", str(target)], check=True)
+            files.append({"path": relative.as_posix(), "source": source,
+                          "category": "vegetation", "size": list(size),
+                          "alpha": "Generated transparent foliage; original normalized UV layout",
+                          "sha256": hashlib.sha256(target.read_bytes()).hexdigest()})
+    manifest = {"version": "3.1", "engine": "GeneralsX 1.0.4 (256px terrain cells), data-only",
                 "files": files}
     (pack / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    print(f"Built {len(files)} textures in {pack} (17 terrain atlases and one road atlas).")
+    print(f"Built {len(files)} textures in {pack} ({terrain_count} terrain, one road, {len(VEGETATION)*2} vegetation files).")
     return 0
 
 

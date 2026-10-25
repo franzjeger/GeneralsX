@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Launch the isolated A/B test map. Usage: run-graphics-lab.sh [enhanced|baseline] [game flags]
-# Override GRAPHICS_LAB_DIR, CNC_GENERALS_PATH, or GRAPHICS_LAB_WINDOWED as needed.
+# Override GRAPHICS_LAB_DIR, GRAPHICS_LAB_MAP, CNC_GENERALS_PATH, or GRAPHICS_LAB_WINDOWED as needed.
 set -euo pipefail
 repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." && pwd)"
 profile="${1:-enhanced}"
@@ -28,4 +28,4 @@ mode=-fullscreen
 if [[ "${GRAPHICS_LAB_WINDOWED:-0}" == 1 ]]; then mode=-win; fi
 cd -- "$runtime_dir"
 exec "$binary" -setCwd "$runtime_dir" -nologo -noshellmap "$mode" "$@" \
-  -map 'Maps/DesertLab.map' > "$lab_dir/logs/$profile.log" 2>&1
+  -map "${GRAPHICS_LAB_MAP:-Maps/DesertLab.map}" > "$lab_dir/logs/$profile.log" 2>&1

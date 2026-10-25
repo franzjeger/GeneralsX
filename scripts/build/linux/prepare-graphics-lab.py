@@ -139,7 +139,16 @@ def scene_map(data, enhanced):
             ("AmericaVehicleHumvee", 1320, 1190),
             ("ChinaTankOverlord", 1400, 1190),
             ("AmericaInfantryRanger", 1270, 1240),
-            ("AmericaInfantryRanger", 1310, 1240)]):
+            ("AmericaInfantryRanger", 1310, 1240),
+            ("TreePalm1", 1170, 1370),
+            ("TreePalm1short", 1220, 1370),
+            ("TreePine", 1300, 1370),
+            ("TreePine", 1350, 1370),
+            ("Bush03", 1410, 1330),
+            ("Bush03", 1450, 1330),
+            ("Bush01", 1220, 1130),
+            ("Bush10", 1320, 1130),
+            ("Bush11", 1360, 1130)]):
         display_objects += obj(name, x, y,
                                {"originalOwner": "teamPlyrCivilian", "objectInitialHealth": 100,
                                 "objectEnabled": True, "objectPowered": True,
@@ -240,6 +249,32 @@ def main():
                 Image.open(source).convert("RGB").resize((width * 4, height * 4), Image.Resampling.LANCZOS).save(dest, compression=None)
                 manifest["textures"].append({"terrain": name, "file": texture, "original_size": [width, height],
                                              "size": [width * 4, height * 4], "sha256": hashlib.sha256(dest.read_bytes()).hexdigest()})
+            pack = REPO.parent / "texture-pack"
+            if (pack / "manifest.json").exists():
+                pack_manifest = json.loads((pack / "manifest.json").read_text())
+                for entry in pack_manifest["files"]:
+                    relative = Path(entry["path"])
+                    if relative.is_absolute() or ".." in relative.parts or relative.parts[0] != "Art":
+                        raise ValueError(f"Invalid pack path: {relative}")
+                    source = pack / relative
+                    if hashlib.sha256(source.read_bytes()).hexdigest() != entry["sha256"]:
+                        raise ValueError(f"Texture pack checksum mismatch: {relative}")
+                    target = runtime / relative
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(source, target)
+                manifest["pack_version"] = pack_manifest["version"]
+                manifest["pack_files"] = pack_manifest["files"]
+                manifest["native_vegetation_overrides"] = []
+                for entry in pack_manifest["files"]:
+                    if entry.get("category") != "vegetation" or not entry["path"].endswith(".tga"):
+                        continue
+                    target = runtime / entry["path"]
+                    # The development engine recognizes one native 256px cell.
+                    # Keep the normal release pack's smaller, compatible TGA unchanged.
+                    source = REPO / "assets/graphics-lab" / entry["source"]
+                    Image.open(source).convert("RGBA").resize((256, 256), Image.Resampling.LANCZOS).save(target, compression=None)
+                    manifest["native_vegetation_overrides"].append({"path": entry["path"], "size": [256, 256],
+                        "sha256": hashlib.sha256(target.read_bytes()).hexdigest()})
     (lab / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"Prepared {lab}: two profiles, {len(selected)} HD terrain replacements.")
     return 0
