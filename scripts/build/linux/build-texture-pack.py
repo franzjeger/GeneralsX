@@ -37,7 +37,10 @@ VEGETATION = {"PTPalm01": ("palm.png", 128), "PTPine01": ("pine.png", 128),
               "PTBush02": ("shrub-snow.png", 128), "PTBush04": ("shrub-dry.png", 128),
               "PTBush05": ("shrub-snow.png", 64), "PTBush06": ("shrub.png", 64),
               "PTBush07": ("shrub-dry.png", 64), "PTBush11": ("shrub.png", 64),
-              "PTBush12": ("shrub-snow.png", 64)}
+              "PTBush12": ("shrub-snow.png", 64),
+              "PTDogwod01": ("foliage-dogwood-green.png", 64),
+              "PTDogwod03": ("foliage-dogwood-autumn.png", 128),
+              "PTDogwod06": ("foliage-dogwood-dark.png", 64)}
 
 
 def main():
@@ -124,7 +127,7 @@ def main():
                           "category": "vegetation", "size": list(size),
                           "alpha": "Generated transparent foliage; original normalized UV layout",
                           "sha256": hashlib.sha256(target.read_bytes()).hexdigest()})
-    manifest = {"version": "3.1", "engine": "GeneralsX 1.0.4 (256px terrain cells), data-only",
+    manifest = {"version": "3.2", "engine": "GeneralsX 1.0.4 (256px terrain cells), data-only",
                 "files": files}
     (pack / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"Built {len(files)} textures in {pack} ({terrain_count} terrain, one road, {len(VEGETATION)*2} vegetation files).")

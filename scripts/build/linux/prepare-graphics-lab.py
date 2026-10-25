@@ -148,7 +148,10 @@ def scene_map(data, enhanced):
             ("Bush03", 1450, 1330),
             ("Bush01", 1220, 1130),
             ("Bush10", 1320, 1130),
-            ("Bush11", 1360, 1130)]):
+            ("Bush11", 1360, 1130),
+            ("TreeDogwood1", 1180, 1500),
+            ("TreeDogwood3", 1330, 1500),
+            ("TreeDogwood8", 1470, 1500)]):
         display_objects += obj(name, x, y,
                                {"originalOwner": "teamPlyrCivilian", "objectInitialHealth": 100,
                                 "objectEnabled": True, "objectPowered": True,

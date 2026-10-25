@@ -26,7 +26,7 @@ This fork builds on upstream GeneralsX's native Linux support. Our graphics work
 - Native renderer fixes for trees disappearing between water-reflection/main passes, cropped small-shrub UVs and HD vegetation atlas allocation.
 - An isolated Zero Hour test scene with its own runtime and preferences.
 
-The native development executable and game-ready texture exports are built locally. The normal 1.0.4 installation can use a compatible texture pack with its existing trainer; the development executable is separate and is not supported by that trainer. Original retail game data is still required and is not included here.
+The native executable and game-ready texture exports are built locally. The [trainer](scripts/tooling/trainer/README.md) supports both release 1.0.4 and native builds with a verified memory layout and matching binary hash. Normal native play uses full-resolution foliage and the existing save directory; the visual lab remains separate. Original retail game data is still required and is not included here.
 
 ---
 

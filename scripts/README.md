@@ -85,9 +85,15 @@ Backward-compatibility wrappers. See their README files for migration info.
 
 Lab output lives beside the repository in `development/`. The retail installation and trainer are not modified. Generated art and provenance live in `assets/graphics-lab/`.
 
+### Native Zero Hour with trainer
+
+- `build/linux/prepare-native-zh.py`: prepare the normal native runtime with the built texture pack, native 256px foliage, separate preferences and the existing shared save directory.
+- `build/linux/run-native-zh.py [game flags]`: launch normal native Zero Hour, validate/regenerate its SHA-bound trainer profile and enable process-local trainer attachment. `GENERALSX_NATIVE_PROFILE` selects a separate test XDG root.
+- `tooling/trainer/zero_hour_trainer.py`: the versioned release/native trainer. See [trainer documentation](tooling/trainer/README.md) for profile validation and tests.
+
 ### Default texture pack (Linux)
 
-- `build/linux/build-texture-pack.py`: build 38 terrain atlases, one DDS road atlas and 22 vegetation files in `../texture-pack/` using generated material sources and local retail atlas dimensions/masks. Requires Pillow and ImageMagick. Vegetation covers palms, pines and nine green/dry/snow shrub textures with generated transparency. Release-compatible optimized-tree TGAs use 64px or 128px to retain space in the fixed 2048px tree atlas; ordinary model rendering uses 512px DDS with mipmaps.
+- `build/linux/build-texture-pack.py`: build 38 terrain atlases, one DDS road atlas and 28 vegetation files in `../texture-pack/` using generated material sources and local retail atlas dimensions/masks. Requires Pillow and ImageMagick. Vegetation covers palms, pines, common deciduous trees and nine green/dry/snow shrub textures with generated transparency. Release-compatible optimized-tree TGAs use 64px or 128px to retain space in the fixed 2048px tree atlas; ordinary model rendering uses 512px DDS with mipmaps.
 - `build/linux/install-texture-pack.py`: install the pack as loose Art overrides in both normal GeneralsX games and enable 16x anisotropic filtering, 4x MSAA and full texture quality. Disable dynamic LOD to retain full particle/debris detail when FPS falls. Disable water reflections as a release-engine workaround for reflected-camera foliage visibility leaking into the main pass; the development engine fixes this in code and can retain reflections. `--restore` restores the original files/preferences, with a checksum check before removing installed files.
 
 The installer keeps originals and its journal in the pack directory. It preserves engine binaries, retail BIG archives, maps, saves and trainer code. The existing release trainer remains compatible; the development engine still needs its own trainer support.

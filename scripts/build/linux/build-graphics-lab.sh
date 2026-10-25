@@ -26,3 +26,6 @@ cmake -S "$repo_dir" -B "$repo_dir/build/graphics-lab" -G Ninja \
   -DRTS_BUILD_CORE_TOOLS=OFF -DRTS_BUILD_ZEROHOUR_TOOLS=OFF \
   -Dglm_DIR="$deps_dir/prefix/share/glm"
 cmake --build "$repo_dir/build/graphics-lab" --target z_generals --parallel "${JOBS:-16}"
+python "$repo_dir/scripts/tooling/trainer/build-native-profile.py" \
+  --binary "$repo_dir/build/graphics-lab/GeneralsMD/GeneralsXZH" \
+  --output "$repo_dir/build/graphics-lab/trainer-profile.json"

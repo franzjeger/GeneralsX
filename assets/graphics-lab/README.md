@@ -9,6 +9,7 @@ This directory contains the versioned source artwork for the native Linux graphi
 | `grass.png`, `snow.png` | Temperate and winter terrain |
 | `road-surface.png` | Dirt-road material |
 | `palm.png`, `pine.png` | Palm and pine foliage/bark UV textures |
+| `foliage-dogwood-green.png`, `foliage-dogwood-autumn.png`, `foliage-dogwood-dark.png` | Common deciduous tree foliage/bark atlases used by the test map |
 | `shrub.png`, `shrub-dry.png`, `shrub-snow.png` | Green, dry and winter shrubs |
 | `provenance.json` | Built-in imagegen prompts, reference descriptions and conversion details |
 
@@ -27,7 +28,7 @@ python scripts/build/linux/install-texture-pack.py
 python scripts/build/linux/install-texture-pack.py --restore
 ```
 
-The normal release pack uses smaller optimized-tree TGAs compatible with the unchanged engine and trainer. Its water reflections are disabled as a workaround for the release engine's foliage visibility bug.
+The release-compatible pack uses smaller optimized-tree TGAs. Its water reflections are disabled as a workaround for the release engine's foliage visibility bug. The normal native runtime uses full 256px foliage and can keep reflections enabled.
 
 The native development engine fixes visibility caching between mirror/main passes, legacy half-image UV cropping and native HD foliage grid selection in `Core/GameEngineDevice/Source/W3DDevice/GameClient/W3DTreeBuffer.cpp`. The enhanced lab uses separate 256px foliage TGAs and can keep water reflections enabled:
 
@@ -37,4 +38,4 @@ python scripts/build/linux/prepare-graphics-lab.py
 scripts/build/linux/run-graphics-lab.sh enhanced
 ```
 
-The lab has its own runtime, settings and test map under `../development/`. The existing release trainer does not attach to this development executable.
+The lab has its own runtime, settings and test map under `../development/`. Normal native play is prepared separately with `scripts/build/linux/prepare-native-zh.py` and launched with `scripts/build/linux/run-native-zh.py`. The [trainer](../../scripts/tooling/trainer/README.md) supports both the release executable and ABI-verified native builds; use the native launcher to enable attachment.

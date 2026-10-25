@@ -5,7 +5,9 @@
 			"label": "[Linux] Build graphics lab",
 			"type": "shell",
 			"command": "./scripts/build/linux/build-graphics-lab.sh",
-			"problemMatcher": ["$gcc"]
+			"problemMatcher": [
+				"$gcc"
+			]
 		},
 		{
 			"label": "[Linux] Prepare graphics lab",
@@ -514,6 +516,42 @@
 				"showReuseMessage": false,
 				"clear": true,
 				"focus": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "[Linux] Prepare native Zero Hour",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"scripts/build/linux/prepare-native-zh.py"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "[Linux] Run native Zero Hour",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"scripts/build/linux/run-native-zh.py"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "[Linux] Zero Hour Trainer",
+			"type": "process",
+			"command": "python",
+			"args": [
+				"scripts/tooling/trainer/zero_hour_trainer.py"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": []
 		}
