@@ -2,7 +2,7 @@
 """Install or restore a data-only texture pack in the normal GeneralsX games.
 
 Usage: install-texture-pack.py [--pack-dir DIR] [--restore]
-Writes only declared Art files and four texture-quality preferences. Preserves
+Writes only declared Art files and five graphics-quality preferences. Preserves
 original loose files and settings in the pack directory; never changes engines,
 retail BIG archives, maps, saves, or trainer code.
 """
@@ -15,7 +15,7 @@ import shutil
 
 REPO = Path(__file__).resolve().parents[3]
 QUALITY = {"TextureFilter": "Anisotropic", "AnisotropyLevel": "16",
-           "AntiAliasing": "4", "TextureReduction": "0"}
+           "AntiAliasing": "4", "TextureReduction": "0", "DynamicLOD": "no"}
 
 
 def digest(path):
