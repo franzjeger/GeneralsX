@@ -17,6 +17,19 @@
 
 ---
 
+## Linux graphics development fork
+
+This fork builds on upstream GeneralsX's native Linux support. Our graphics work is on `local/graphics-lab`:
+
+- Generated terrain and vegetation source artwork, prompts and conversion details: [assets/graphics-lab](assets/graphics-lab/README.md).
+- Reproducible terrain/foliage pack, installation and restoration scripts: [graphics tools](scripts/README.md#default-texture-pack-linux).
+- Native renderer fixes for trees disappearing between water-reflection/main passes, cropped small-shrub UVs and HD vegetation atlas allocation.
+- An isolated Zero Hour test scene with its own runtime and preferences.
+
+The native development executable and game-ready texture exports are built locally. The normal 1.0.4 installation can use a compatible texture pack with its existing trainer; the development executable is separate and is not supported by that trainer. Original retail game data is still required and is not included here.
+
+---
+
 **GeneralsX** lets you run **Command & Conquer: Generals** and **Zero Hour** natively on **macOS, Linux, and Windows**. Built on a modern open-source engine stack, it brings back smooth gameplay, seamless cross-platform online multiplayer, and full compatibility with original campaigns, mods, and replays on modern computers.
 
 ## ✨ Highlights

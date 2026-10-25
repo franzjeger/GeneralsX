@@ -1,6 +1,6 @@
 # Local graphics sources
 
-This directory contains the versioned source artwork for the native Linux graphics work. The repository is the separate local GeneralsX clone on branch `local/graphics-lab`.
+This directory contains the versioned source artwork for the native Linux graphics work in [franzjeger/GeneralsX](https://github.com/franzjeger/GeneralsX), on branch `local/graphics-lab`.
 
 | Sources | Use |
 | --- | --- |
