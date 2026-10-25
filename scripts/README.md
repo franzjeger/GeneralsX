@@ -85,6 +85,13 @@ Backward-compatibility wrappers. See their README files for migration info.
 
 Lab output lives beside the repository in `development/`. The retail installation and trainer are not modified. Generated art and provenance live in `assets/graphics-lab/`.
 
+### Default texture pack (Linux)
+
+- `build/linux/build-texture-pack.py`: build 17 terrain atlases and one DDS road atlas in `../texture-pack/` using generated material sources and local retail atlas dimensions/masks. Requires Pillow and ImageMagick.
+- `build/linux/install-texture-pack.py`: install the pack as loose Art overrides in both normal GeneralsX games and enable 16x anisotropic filtering, 4x MSAA and full texture quality. `--restore` restores the original files/preferences, with a checksum check before removing installed files.
+
+The installer keeps originals and its journal in the pack directory. It preserves engine binaries, retail BIG archives, maps, saves and trainer code. The existing release trainer remains compatible; the development engine still needs its own trainer support.
+
 ### Docker Prerequisites
 
 ```bash

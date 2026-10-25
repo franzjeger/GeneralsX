@@ -1,7 +1,7 @@
 {
   "created": "2026-10-25",
   "generator": "Built-in image_gen imagegen tool",
-  "purpose": "Local GeneralsX desert terrain albedo prototypes. Not an official EA asset pack.",
+  "purpose": "Generated desert terrain and road material sources for the local graphics lab and the default data-only texture pack.",
   "sand": {
     "file": "sand.png",
     "prompt": "Create a production-ready seamless tileable ground albedo texture for a real-time strategy game desert map, square 1024x1024 image. Completely top-down orthographic view of flat warm beige sandy compacted earth, fine naturally varied sand grains with sparse tiny weathered pebbles, subtle wind ripples, believable detail at small scale. Consistent neutral diffuse lighting across the whole image: no cast shadows, no directional light, no highlights, no vignette. Low-frequency color stays even and muted tan so tiled repetition is unobtrusive. No large rocks, no plants, no footprints, no objects, no text, no borders or grid. Edge-to-edge material intended to repeat seamlessly horizontally and vertically. Physically plausible surface color, crisp fine detail without excessive contrast."
@@ -10,5 +10,17 @@
     "file": "rock.png",
     "prompt": "Create a production-ready seamless tileable desert rock ground albedo texture for a real-time strategy game, square 1024x1024 image. Completely top-down orthographic flat material scan of warm muted sandstone and weathered compacted gravel. Small irregular flat stone fragments, fine dusty sand filling the narrow cracks, layered sedimentary grain. Very fine naturally varied surface detail, low broad tonal variation, pale ochre tan grey-brown palette that fits desert sand. Flat neutral diffuse illumination across whole image, no cast shadows, no perspective, no horizon, no dramatic highlights, no vignette. No plants or large boulders, no objects, no text, no borders or grid. Edge-to-edge material intended to repeat seamlessly in both directions; balanced detail suitable for small RTS terrain tiles, visually clear without high-contrast noise."
   },
-  "conversion": "Pillow converts to 24-bit uncompressed TGA and resizes each atlas to 4x its original width and height, preserving tile count."
+  "conversion": "Pillow converts terrain sources to 24-bit uncompressed TGA at 4x retail dimensions, preserving terrain tile counts. Road colour is packed with the original road-atlas alpha mask at 1024x1024; ImageMagick exports DXT5 DDS with mipmaps. No retail artwork is committed.",
+  "dirt": {
+    "file": "dirt.png",
+    "prompt": "Create a seamless tileable RTS game ground albedo texture, square 1024x1024. Straight top-down material scan of compacted dry earth, muted neutral light brown with grey and ochre grains. Very fine irregular soil texture, tiny gravel particles, a few shallow narrow natural drying cracks, subtle worn mottling. Flat even diffuse illumination, no shadows or baked lighting, no large stones, no footprints, no vegetation, no perspective, no text, no borders. Keep the surface subdued and natural, avoid large high-contrast shapes so it repeats unobtrusively over a landscape. High-detail material suitable for sandy dirt terrain in Command and Conquer Generals, slightly darker and less yellow than pale beige sand."
+  },
+  "cliff": {
+    "file": "cliff.png",
+    "prompt": "Create a seamless tileable game cliff-face albedo texture, square 1024x1024. Orthographic face-on close-up of a dry desert sandstone rock wall, warm neutral tan and grey-brown weathered sedimentary stone. Clear continuous mostly horizontal strata with irregular thin fractures and small eroded ledges, natural varied granular mineral detail. No separated floating boulders, no loose pebble carpet, no soil ground, no sky, no vegetation, no horizon. Neutral flat diffuse illumination without directional highlights or cast shadows; game lighting will provide all shading. Broad colour stays muted and uniform; details support a believable rocky vertical terrain slope without exaggerated cracks or excessive contrast. Edge-to-edge material that repeats seamlessly in both directions, no border, no text."
+  },
+  "road_surface": {
+    "file": "road-surface.png",
+    "prompt": "Create a seamless tileable albedo material for a dry compacted gravel and dust road in an RTS game, square image 1024x1024, completely opaque edge-to-edge surface. Uniformly fill the WHOLE image with the same fine road material, no road outline, no atlas pieces, no margins, no transparency. Top-down orthographic material scan: muted warm grey-brown compacted fine gravel, very small grit and fine dusty binder, faint wear and natural microvariation, restrained detail that remains readable at game distance. No large raised tire ridges, no strong directional tire tracks, no large rocks, no cracks, no grass, no markings, no text. Flat neutral diffuse lighting, no cast shadows, no highlights or vignette. The game will cut road shapes from this surface using its existing UV atlas masks. Seamless in both directions, subdued natural palette slightly darker and less yellow than desert sand."
+  }
 }
