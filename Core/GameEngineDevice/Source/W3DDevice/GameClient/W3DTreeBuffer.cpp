@@ -490,6 +490,9 @@ void W3DTreeBuffer::updateTexture()
 	for (i=0; i<m_numTreeTypes; i++) {
 		char texturePath[ _MAX_PATH ];
 		m_treeTypes[i].m_numTiles = 0;
+		// GeneralsX @bugfix Codex 25/10/2026 readTiles expands 32px sources to a full cell.
+		// Initialize shared-texture aliases too; cropping their UVs exposes enlarged texels.
+		m_treeTypes[i].m_halfTile = false;
 		snprintf( texturePath, ARRAY_SIZE(texturePath), "%s%s", TERRAIN_TGA_DIR_PATH, m_treeTypes[i].m_data->m_textureName.str() );
 		theFile = TheFileSystem->openFile( texturePath, File::READ|File::BINARY);
 		if (theFile==nullptr) {
@@ -501,7 +504,9 @@ void W3DTreeBuffer::updateTexture()
 			InputStream *pStr = &theStream;
 			Bool halfTile;
 			Bool isLegacyGrid = false;
-			Int numTiles = WorldHeightMap::countTiles(pStr, &halfTile, 0, &isLegacyGrid);
+			// GeneralsX @feature Codex 25/10/2026 A tree uses its whole source image.
+			// Prefer the native grid for HD art instead of allocating sixteen cells for 256px.
+			Int numTiles = WorldHeightMap::countTiles(pStr, &halfTile, 1, &isLegacyGrid);
 			Int width;
 			for (width = 10; width >= 1; width--) {
 				if (numTiles >= width*width) {
@@ -528,7 +533,6 @@ void W3DTreeBuffer::updateTexture()
 				m_treeTypes[i].m_firstTile = m_numTiles;
 				m_treeTypes[i].m_tileWidth = width;
 				m_treeTypes[i].m_numTiles = numTiles;
-				m_treeTypes[i].m_halfTile = halfTile;
 				WorldHeightMap::readTiles(pStr, m_sourceTiles+m_treeTypes[i].m_firstTile, width, isLegacyGrid);
 				m_numTiles += numTiles;
 			} else {
@@ -1607,9 +1611,10 @@ void W3DTreeBuffer::drawTrees(CameraClass * camera, RefRenderObjListIterator *pD
 		}
 		return;
 	}
-	if (m_updateAllKeys) {
-		cull(camera);
-	}
+	// GeneralsX @bugfix Codex 25/10/2026 Recompute visibility for each render pass.
+	// Water reflections temporarily change the camera and consume m_updateAllKeys.
+	// The main pass must not reuse the mirror's frustum visibility or tree buffers.
+	cull(camera);
 
 	Int curTree;
 	// Draw tree shadows.
