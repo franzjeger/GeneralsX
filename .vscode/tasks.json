@@ -2,6 +2,24 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "[Linux] Build graphics lab",
+			"type": "shell",
+			"command": "./scripts/build/linux/build-graphics-lab.sh",
+			"problemMatcher": ["$gcc"]
+		},
+		{
+			"label": "[Linux] Prepare graphics lab",
+			"type": "shell",
+			"command": "python ./scripts/build/linux/prepare-graphics-lab.py",
+			"problemMatcher": []
+		},
+		{
+			"label": "[Linux] Run enhanced graphics lab",
+			"type": "shell",
+			"command": "./scripts/build/linux/run-graphics-lab.sh enhanced",
+			"problemMatcher": []
+		},
+		{
 			"label": "[Platform] Configure",
 			"type": "shell",
 			"icon": {

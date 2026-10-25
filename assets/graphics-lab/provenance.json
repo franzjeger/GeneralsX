@@ -1,0 +1,14 @@
+{
+  "created": "2026-10-25",
+  "generator": "Built-in image_gen imagegen tool",
+  "purpose": "Local GeneralsX desert terrain albedo prototypes. Not an official EA asset pack.",
+  "sand": {
+    "file": "sand.png",
+    "prompt": "Create a production-ready seamless tileable ground albedo texture for a real-time strategy game desert map, square 1024x1024 image. Completely top-down orthographic view of flat warm beige sandy compacted earth, fine naturally varied sand grains with sparse tiny weathered pebbles, subtle wind ripples, believable detail at small scale. Consistent neutral diffuse lighting across the whole image: no cast shadows, no directional light, no highlights, no vignette. Low-frequency color stays even and muted tan so tiled repetition is unobtrusive. No large rocks, no plants, no footprints, no objects, no text, no borders or grid. Edge-to-edge material intended to repeat seamlessly horizontally and vertically. Physically plausible surface color, crisp fine detail without excessive contrast."
+  },
+  "rock": {
+    "file": "rock.png",
+    "prompt": "Create a production-ready seamless tileable desert rock ground albedo texture for a real-time strategy game, square 1024x1024 image. Completely top-down orthographic flat material scan of warm muted sandstone and weathered compacted gravel. Small irregular flat stone fragments, fine dusty sand filling the narrow cracks, layered sedimentary grain. Very fine naturally varied surface detail, low broad tonal variation, pale ochre tan grey-brown palette that fits desert sand. Flat neutral diffuse illumination across whole image, no cast shadows, no perspective, no horizon, no dramatic highlights, no vignette. No plants or large boulders, no objects, no text, no borders or grid. Edge-to-edge material intended to repeat seamlessly in both directions; balanced detail suitable for small RTS terrain tiles, visually clear without high-contrast noise."
+  },
+  "conversion": "Pillow converts to 24-bit uncompressed TGA and resizes each atlas to 4x its original width and height, preserving tile count."
+}

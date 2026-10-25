@@ -77,6 +77,14 @@ Backward-compatibility wrappers. See their README files for migration info.
 
 ## Quick Start
 
+### Isolated graphics lab
+
+- `build/linux/build-graphics-lab.sh`: native Zero Hour development build with private GLM/GLI dependencies.
+- `build/linux/prepare-graphics-lab.py`: prepare two private Tournament Desert visual-test profiles from local retail data and generated terrain art.
+- `build/linux/run-graphics-lab.sh [enhanced|baseline]`: launch the test scene with private XDG preferences and saves. `GRAPHICS_LAB_WINDOWED=1` selects windowed mode.
+
+Lab output lives beside the repository in `development/`. The retail installation and trainer are not modified. Generated art and provenance live in `assets/graphics-lab/`.
+
 ### Docker Prerequisites
 
 ```bash

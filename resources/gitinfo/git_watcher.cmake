@@ -348,7 +348,9 @@ function(SetupGitMonitoring)
             -DGIT_STATE_FILE=${GIT_STATE_FILE}
             -DGIT_PRE_CONFIGURE_FILE=${GIT_PRE_CONFIGURE_FILE}
             -DGIT_POST_CONFIGURE_FILE=${GIT_POST_CONFIGURE_FILE}
-            -P "${CMAKE_CURRENT_LIST_FILE}")
+            -P "${CMAKE_CURRENT_LIST_FILE}"
+        # GeneralsX @build Codex 25/10/2026 Quote paths containing shell metacharacters.
+        VERBATIM)
 endfunction()
 
 

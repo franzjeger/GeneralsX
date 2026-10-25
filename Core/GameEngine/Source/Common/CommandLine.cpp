@@ -405,10 +405,15 @@ Int parseNoShadows(char *args[], int)
 
 Int parseMapName(char *args[], int num)
 {
-	if (num == 2)
+	if (num > 1)
 	{
 		TheWritableGlobalData->m_mapName.set( args[ 1 ] );
-		ConvertShortMapPathToLongMapPath(TheWritableGlobalData->m_mapName);
+		// GeneralsX @bugfix Codex 25/10/2026 Do not expand an already complete local map path twice.
+		if (!TheLocalFileSystem->doesFileExist(TheWritableGlobalData->m_mapName.str()))
+			ConvertShortMapPathToLongMapPath(TheWritableGlobalData->m_mapName);
+		// GeneralsX @feature Codex 25/10/2026 Start the requested map directly for visual comparisons.
+		TheWritableGlobalData->m_initialFile = TheWritableGlobalData->m_mapName;
+		return 2;
 	}
 	return 1;
 }
@@ -1226,6 +1231,8 @@ static CommandLineParam paramsForEngineInit[] =
 	{ "-playStats", parsePlayStats },
 	{ "-noshaders", parseNoShaders },
 	{ "-quickstart", parseQuickStart },
+	// GeneralsX @feature Codex 25/10/2026 Allow reproducible visual test maps in release builds.
+	{ "-map", parseMapName },
 	{ "-useWaveEditor", parseUseWaveEditor },
 
 	// TheSuperHackers @feature bobtista 22/07/2026 Load a save game file from the command line.
@@ -1239,7 +1246,6 @@ static CommandLineParam paramsForEngineInit[] =
 
 #if defined(RTS_DEBUG)
 	{ "-noaudio", parseNoAudio },
-	{ "-map", parseMapName },
 	{ "-nomusic", parseNoMusic },
 	{ "-novideo", parseNoVideo },
 	{ "-noLogOrCrash", parseNoLogOrCrash },
